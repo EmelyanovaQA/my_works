@@ -1,0 +1,119 @@
+"Чел-лист на URL для курьеров и URL для заказов
+",,,
+,,,
+№,Описание проверки,Статус,ID Баг- репорта
+Создание заказа: POST /api/v1/orders,,,
+,"{
+    ""firstName"": ""Ника"",
+    ""lastName"": ""Иванова"",
+    ""address"": ""Семеновская, 5"",
+    ""metroStation"": 99,
+    ""phone"": ""89999999999"",
+    ""rentTime"": 3,
+    ""deliveryDate"": ""2022-06-23"",
+    ""comment"": ""Не звонить"",
+    ""color"": [
+        ""Black""
+    ]
+}",,
+Принятие заказа курьером: PUT /api/v1/orders/accept/2?courierId=3,,,
+Создание курьера: POST /api/v1/courier,,,
+,Проверка вводимых данных в поле login:,,
+,201 created:,,
+1,"ввести латинские буквы, количество символов 2 ""Al"" и отправить запрос с корректным паролем",PASSED,
+2,"ввести латинские буквы, количество символов 10 ""Alishalish"" и отправить запрос с корректным паролем",PASSED,
+3,"ввести латинские буквы, количество символов 5 ""Alish"" и отправить запрос с корректным паролем",PASSED,
+4,"ввести латинские буквы, количество символов 3 ""Ali"" и отправить запрос с корректным паролем",PASSED,
+5,"ввести латинские буквы, количество символов 9 ""Alishalis"" и отправить запрос с корректным паролем",PASSED,
+6,"проверить создание курьера в базе данных в таблице Couriers, имеется запись в поле login",PASSED,
+,,,
+,400 Bad Request:,,
+7,"ввести кириллические буквы ""Иван""",FAILED,https://tracker.yandex.ru/BUG-674579
+8,"ввести символы ""@#$""",FAILED,https://tracker.yandex.ru/BUG-674588
+9,"ввести цифры ""1234""",FAILED,https://tracker.yandex.ru/BUG-674593
+10,"оставить пустым "" """,PASSED,
+11,удалить поле из body,PASSED,
+12,"ввести 1 символ ""A""",FAILED,https://tracker.yandex.ru/BUG-674602
+13,"ввести 11 символов ""Alishalisha""",FAILED,https://tracker.yandex.ru/BUG-674607
+14,"ввести очень длинное значение ""Qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnm""",FAILED,https://tracker.yandex.ru/BUG-674612
+15,ввести вместо строчного значения число 1111,FAILED,https://tracker.yandex.ru/BUG-674819
+,,,
+,409 Сonflict:,,
+10,"ввести в поле уже существующий логин ""Alish""",PASSED,
+,,,
+,Проверка вводимых данных в поле password:,,
+,201 created:,,
+11,"ввести числа, количество символов 4: ""2222"" и отправить запрос с корректным логином",PASSED,
+12,"проверить создание курьера в базе данных в таблице Couriers, имеется запись в поле passwordHash",PASSED,
+,,,
+,400 Bad Request:,,
+13,"ввести буквы ""aaaa""",FAILED,https://tracker.yandex.ru/BUG-675310
+14,"ввести символы ""@#$?""",FAILED,https://tracker.yandex.ru/BUG-675323
+15,"ввести дробное число ""12.3""",FAILED,https://tracker.yandex.ru/BUG-675348
+16,"оставить пустым "" """,PASSED,
+17,удалить поле из body,PASSED,
+18,"ввести 3 символа ""333""",FAILED,https://tracker.yandex.ru/BUG-675360
+19,"ввести 5 символов 5 ""55555""",FAILED,https://tracker.yandex.ru/BUG-675371
+20,"ввести очень длинное значение: ""222222222222222222222222222222222222222222222222222222222222""",FAILED,https://tracker.yandex.ru/BUG-675378
+21,ввести вместо строчного значения число 3333,FAILED,https://tracker.yandex.ru/BUG-675386
+,,,
+,Проверка вводимых данных в поле firstName:,,
+,201 created:,,
+22,"ввести латинские буквы, количество символов 2 ""Me"" и отправить запрос с корректным логином и паролем",PASSED,
+23,"ввести латинские буквы, количество символов 10 ""Abdullaaaa"" и отправить запрос с корректным логином и паролем",PASSED,
+24,"ввести латинские буквы, количество символов 6 ""Abdula"" и отправить запрос с корректным логином и паролем",PASSED,
+25,"ввести латинские буквы, количество символов 3 ""Nik"" и отправить запрос с корректным логином и паролем",PASSED,
+26,"ввести латинские буквы, количество символов 9 ""Abdullaaa"" и отправить запрос с корректным логином и паролем",PASSED,
+27,"ввести буквы русского алфавита, количество символов 4 ""Иван"" и отправить запрос с корректным логином и паролем",PASSED,
+28,"оставить поле пустым "" """,PASSED,
+29,удалить поле из body,PASSED,
+30,"проверить создание курьера в базе данных в таблице Couriers, имеется запись в поле firstName при заполненнии поля во время создания курьера",PASSED,
+,,,
+,400 Bad Request:,,
+31,"ввести символы ""@#$""",FAILED,https://tracker.yandex.ru/BUG-675459
+32,"ввести цифры ""1234""",FAILED,https://tracker.yandex.ru/BUG-675468
+33,"ввести 1 символ ""A""",FAILED,https://tracker.yandex.ru/BUG-675479
+34,"ввести 11 символов ""Abdullaaaaa""",FAILED,https://tracker.yandex.ru/BUG-675483
+35,"ввести очень длинное значение ""Qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnm""",FAILED,https://tracker.yandex.ru/BUG-675498
+36,ввести вместо строчного значения число 4444,FAILED,https://tracker.yandex.ru/BUG-675506
+Удаление курьера: DELETE /api/v1/courier/:id,,,
+,200 ОК:,,
+37,ввести существующий id 3,PASSED,
+38,проверить удаление курьера в базе данных в таблице Couriers,PASSED,
+39,проверить удаление связанных заказов в базе данных в таблице Orders,FAILED,https://tracker.yandex.ru/BUG-677164
+,,,
+,400 Bad Request:,,
+40,удалить курьера с пустым id,FAILED,https://tracker.yandex.ru/BUG-677174
+41,удалить курьера с некорректным id 4a,FAILED,https://tracker.yandex.ru/BUG-677182
+,,,
+,404 Not Found:,,
+42,удалить курьера с несуществующим id 11,PASSED,
+Получение данных заказа по его номеру: GET /api/v1/orders/track,,,
+,200 OK:,,
+43,ввести существующий номер заказа t=852394,PASSED,
+,в ответе возвращаются корректные данные:,,
+44,id заказа,PASSED,
+45,firstName,PASSED,
+46,lastName,PASSED,
+47,address,PASSED,
+48,metroStation,PASSED,
+49,phone,PASSED,
+50,rentTime,PASSED,
+51,deliveryDate,PASSED,
+52,track,PASSED,
+53,status,PASSED,
+54,color,PASSED,
+55,comment,PASSED,
+56,cancelled,PASSED,
+57,finished,PASSED,
+58,inDelivery,PASSED,
+59,courierFirstName,PASSED,
+60,createdAt,PASSED,
+61,updatedAt,PASSED,
+,,,
+,400 Bad Request:,,
+62,отправить запрос без номера,PASSED,
+63,отправить запрос с некорректным номером  t=85239d,FAILED,https://tracker.yandex.ru/BUG-684890
+,,,
+,404 Not Found:,,
+64,отправить запрос с несуществующим номером заказа t=999999,PASSED,
